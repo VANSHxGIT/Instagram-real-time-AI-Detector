@@ -1,0 +1,10 @@
+.ai-detector-badge {
+    background: #111;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    margin-top: 5px;
+    display: inline-block;
+    z-index: 9999;
+}
