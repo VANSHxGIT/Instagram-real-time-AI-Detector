@@ -76,14 +76,13 @@ async function analyzeImage(imageUrl) {
 }
 const posts = document.querySelectorAll("article");
 
-posts.forEach(async (post) => {
+for (const post of posts) {
 
     const img = post.querySelector("img");
 
-    if (!img) return;
+    if (!img) continue;
 
     const score = await analyzeImage(img.src);
 
     console.log("Score:", score);
-
-});
+}
