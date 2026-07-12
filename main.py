@@ -1,25 +1,23 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-import random
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from downloader import download_image
+from preprocess import preprocess
+from detector import AIDetector
 
 app = FastAPI()
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+detector = AIDetector()
 
 class ImageRequest(BaseModel):
     image_url: str
 
 @app.post("/analyze")
-def analyze_image(data: ImageRequest):
+def analyze(req: ImageRequest):
 
-    score = random.randint(40, 95)
+    image = download_image(req.image_url)
+
+    tensor = preprocess(image)
+
+    score = detector.predict(tensor)
 
     return {
         "authenticity_score": score
