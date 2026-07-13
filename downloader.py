@@ -2,15 +2,14 @@ import requests
 from PIL import Image
 from io import BytesIO
 
+session = requests.Session()
+session.headers.update({"User-Agent": "Mozilla/5.0"})
+
 
 def download_image(url: str):
 
-    response = requests.get(
+    response = session.get(
         url,
-        headers={
-            "User-Agent":
-            "Mozilla/5.0"
-        },
         timeout=10
     )
 
