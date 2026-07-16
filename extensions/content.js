@@ -7,33 +7,36 @@
  * Sends an image URL to the FastAPI backend
  */
 async function analyzeImage(imageUrl) {
-    try {
-        const response = await fetch("http://127.0.0.1:8000/analyze", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
+
+    return new Promise((resolve) => {
+
+        chrome.runtime.sendMessage(
+            {
+                type: "analyze",
+                imageUrl: imageUrl
             },
-            body: JSON.stringify({
-                image_url: imageUrl
-            })
-        });
 
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
-        }
+            (response) => {
 
-        const data = await response.json();
+                if (chrome.runtime.lastError) {
 
-        console.log("Backend Response:", data);
+                    console.error(chrome.runtime.lastError);
 
-        return data.authenticity_score;
+                    resolve(null);
 
-    } catch (error) {
+                    return;
+                }
 
-        console.error("API Error:", error);
+                console.log("Backend Response:", response);
 
-        return null;
-    }
+                resolve(response?.authenticity_score ?? null);
+
+            }
+
+        );
+
+    });
+
 }
 
 /**
