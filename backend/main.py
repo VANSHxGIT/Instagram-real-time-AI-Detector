@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from downloader import download_image
-from preprocess import preprocess
-from detector import AIDetector
+from backend.downloader import download_image
+from backend.detector.preprocess import preprocess
+from backend.detector.detector import AIDetector
 
 app = FastAPI()
 detector = AIDetector()
