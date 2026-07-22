@@ -1,7 +1,6 @@
 from torchvision import transforms
 
 transform = transforms.Compose([
-    transforms.Resize(224),
     transforms.CenterCrop(224),
     transforms.ToTensor(),
     transforms.Normalize(
@@ -9,6 +8,7 @@ transform = transforms.Compose([
         std=[0.26862954, 0.26130258, 0.27577711]
     )
 ])
+
 
 def preprocess(image):
     return transform(image).unsqueeze(0)
